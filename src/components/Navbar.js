@@ -1,6 +1,12 @@
 // components/Navbar.jsx
 import React, { useEffect, useState } from "react";
 import { AppBar, Toolbar, Typography, Stack, Link as MuiLink, Avatar } from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import MenuIcon from "@mui/icons-material/Menu";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
 import { Link as RouterLink, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -10,6 +16,9 @@ function Navbar({ handleScroll }) {
   const location = useLocation();
   const navigate = useNavigate();
   const [profilePicUrl, setProfilePicUrl] = useState("");
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const [menuAnchor, setMenuAnchor] = useState(null);
 
   useEffect(() => {
     let isMounted = true;
@@ -37,6 +46,9 @@ function Navbar({ handleScroll }) {
       navigate("/", { state: { scrollTo: sectionId } });
     }
   };
+
+  const openMenu = (e) => setMenuAnchor(e.currentTarget);
+  const closeMenu = () => setMenuAnchor(null);
 
   // Dynamic hover effect with animated underline
   const linkStyles = {
@@ -103,34 +115,69 @@ function Navbar({ handleScroll }) {
           </Typography>
         </Stack>
 
-        <Stack direction="row" spacing={3} sx={{ alignItems: "center" }}>
-          <MuiLink
-            href="#summary"
-            sx={linkStyles}
-            onClick={(e) => handleNavClick(e, "summary")}
-          >
-            Home
-          </MuiLink>
+        {isMobile ? (
+          <>
+            <IconButton color="inherit" onClick={openMenu} aria-label="Open navigation menu">
+              <MenuIcon />
+            </IconButton>
+            <Menu anchorEl={menuAnchor} open={Boolean(menuAnchor)} onClose={closeMenu} keepMounted>
+              <MenuItem
+                onClick={(e) => {
+                  closeMenu();
+                  handleNavClick(e, "summary");
+                }}
+              >
+                Home
+              </MenuItem>
+              <MenuItem
+                onClick={(e) => {
+                  closeMenu();
+                  handleNavClick(e, "projects");
+                }}
+              >
+                Projects
+              </MenuItem>
+              <MenuItem component={RouterLink} to="/about" onClick={closeMenu}>
+                About
+              </MenuItem>
+              <MenuItem component={RouterLink} to="/contact" onClick={closeMenu}>
+                Contact
+              </MenuItem>
+              <MenuItem component={RouterLink} to="/services" onClick={closeMenu}>
+                Services
+              </MenuItem>
+            </Menu>
+          </>
+        ) : (
+          <Stack direction="row" spacing={3} sx={{ alignItems: "center" }}>
+            <MuiLink
+              href="#summary"
+              sx={linkStyles}
+              onClick={(e) => handleNavClick(e, "summary")}
+            >
+              Home
+            </MuiLink>
 
-          <MuiLink
-            href="#projects"
-            sx={linkStyles}
-            onClick={(e) => handleNavClick(e, "projects")}
-          >
-            Projects
-          </MuiLink>
-          <MuiLink component={RouterLink} to="/about" sx={linkStyles}>
-            About
-          </MuiLink>
+            <MuiLink
+              href="#projects"
+              sx={linkStyles}
+              onClick={(e) => handleNavClick(e, "projects")}
+            >
+              Projects
+            </MuiLink>
+            <MuiLink component={RouterLink} to="/about" sx={linkStyles}>
+              About
+            </MuiLink>
 
-          <MuiLink component={RouterLink} to="/contact" sx={linkStyles}>
-            Contact
-          </MuiLink>
+            <MuiLink component={RouterLink} to="/contact" sx={linkStyles}>
+              Contact
+            </MuiLink>
 
-          <MuiLink component={RouterLink} to="/services" sx={linkStyles}>
-            Services
-          </MuiLink>
-        </Stack>
+            <MuiLink component={RouterLink} to="/services" sx={linkStyles}>
+              Services
+            </MuiLink>
+          </Stack>
+        )}
       </Toolbar>
     </AppBar>
   );

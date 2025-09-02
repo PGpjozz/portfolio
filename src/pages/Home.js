@@ -53,7 +53,7 @@ function Home() {
             sx={{
               position: "sticky",
               top: "40vh",
-              display: "flex",
+              display: { xs: "none", md: "flex" },
               flexDirection: "column",
               gap: 3,
               px: 2,
@@ -79,7 +79,7 @@ function Home() {
           </Box>
 
           {/* Main content */}
-          <Box sx={{ flexGrow: 1, px: 4, py: 4 }}>
+          <Box sx={{ flexGrow: 1, px: { xs: 2, md: 4 }, py: { xs: 3, md: 4 } }}>
             {/* Developer Summary */}
             <Box
               id="summary"
@@ -91,7 +91,7 @@ function Home() {
                 scrollMarginTop: "80px",
               }}
             >
-              <Typography variant="h3" sx={{ fontWeight: 700, mb: 2 }}>
+              <Typography variant="h4" sx={{ fontWeight: 700, mb: 2, fontSize: { sm: "2.125rem" } }}>
                 Hi, I’m Miyelani —
               </Typography>
               <Typography
@@ -155,13 +155,13 @@ function Home() {
                   No projects to display yet. Please check back soon.
                 </Typography>
               ) : (
-                <Grid container spacing={4} sx={{ mt: 1 }}>
-                  {projects.map((project, index) => (
+              <Grid container spacing={4} sx={{ mt: 1 }}>
+                {projects.map((project, index) => (
                     <Grid item xs={12} sm={6} md={4} key={project.id || index}>
-                      <ProjectCard project={project} index={index} />
-                    </Grid>
-                  ))}
-                </Grid>
+                    <ProjectCard project={project} index={index} />
+                  </Grid>
+                ))}
+              </Grid>
               )}
             </Box>
           </Box>
