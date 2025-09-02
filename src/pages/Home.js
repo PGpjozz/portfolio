@@ -174,3 +174,119 @@ function Home() {
 }
 
 export default Home;
+
+
+                development, I have strong experience with Power BI, Microsoft
+
+                Power Automate, and Microsoft Dynamics 365 CRM, enabling
+
+                intelligent business solutions and workflow automation. I’m also
+
+                certified in CCNA and skilled in cloud technologies like
+
+                Microsoft Azure.
+
+              </Typography>
+
+            </Box>
+
+
+
+            {/* Projects Section */}
+
+            <Box id="projects" sx={{ scrollMarginTop: "80px", pb: 4 }}>
+
+              <Box
+
+                sx={{
+
+                  position: "sticky",
+
+                  top: 50,
+
+                  zIndex: 10,
+
+                  backgroundColor: "#fff",
+
+                  py: 2,
+
+                  boxShadow: "0 2px 4px rgba(0,0,0,0.06)",
+
+                }}
+
+              >
+
+                <Typography variant="h4" gutterBottom sx={{ fontWeight: 700 }}>
+
+                  <FolderIcon
+
+                    fontSize="large"
+
+                    sx={{ verticalAlign: "middle", mr: 1 }}
+
+                  />
+
+                  My Projects
+
+                </Typography>
+
+              </Box>
+
+              {error && (
+                <Alert severity="error" sx={{ mt: 2 }}>
+                  {error}
+                </Alert>
+              )}
+
+              {loading ? (
+                <Grid container spacing={4} sx={{ mt: 1 }}>
+                  {Array.from({ length: 6 }).map((_, idx) => (
+                    <Grid item xs={12} sm={6} md={4} key={idx}>
+                      <Skeleton variant="rectangular" height={220} sx={{ borderRadius: 2 }} />
+                      <Skeleton height={32} sx={{ mt: 1, width: "80%" }} />
+                      <Skeleton height={20} sx={{ width: "60%" }} />
+                    </Grid>
+                  ))}
+                </Grid>
+              ) : projects.length === 0 ? (
+                <Typography sx={{ mt: 3 }} color="text.secondary">
+                  No projects to display yet. Please check back soon.
+                </Typography>
+              ) : (
+              <Grid container spacing={4} sx={{ mt: 1 }}>
+
+                {projects.map((project, index) => (
+
+                    <Grid item xs={12} sm={6} md={4} key={project.id || index}>
+                    <ProjectCard project={project} index={index} />
+
+                  </Grid>
+
+                ))}
+
+              </Grid>
+
+              )}
+            </Box>
+
+          </Box>
+
+        </Box>
+
+
+
+        <Footer />
+
+      </>
+
+    </motion.div>
+
+  );
+
+}
+
+
+
+export default Home;
+
+
